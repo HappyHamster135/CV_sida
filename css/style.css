@@ -267,10 +267,13 @@ nav a:hover, nav a.active {
     box-shadow: 10px 10px 30px rgba(47, 62, 70, 0.1); 
     border-bottom: 6px solid var(--color-dark-sage); 
     flex: 0 0 auto;
-    width: 25vw; 
-    min-width: 300px;
+    width: 22vw; /* Något smalare kort */
+    min-width: 280px;
+    max-width: 400px; /* Snävare maxbredd för att spara plats */
+    max-height: 60vh; /* Tvingar kortet att aldrig bli för högt vertikalt */
     cursor: pointer;
     transition: transform 0.5s ease, box-shadow 0.3s ease;
+    overflow: hidden;
 }
 
 /* Lyfter kortet när användaren håller muspekaren över det */
@@ -281,12 +284,15 @@ nav a:hover, nav a.active {
 
 .project img {
     width: 100%;
+    height: auto;
+    max-height: 40vh; /* Begränsar själva bildens höjd */
+    object-fit: cover; /* Ser till att bilden fyller ut snyggt även om den beskärs */
     border-radius: 10px;
 }
 
 /* Skapar ett mönster där varannat kort flyttas uppåt eller nedåt */
-.project:nth-child(odd) { translate: 0 -20vh; }
-.project:nth-child(even) { translate: 0 20vh; }
+.project:nth-child(odd) { translate: 0 -22vh; }
+.project:nth-child(even) { translate: 0 22vh; }
 
 /*------------------------------------------------------------/
 / SCROLL INDIKATOR OCH MÄTARE /
