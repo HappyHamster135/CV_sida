@@ -1,8 +1,14 @@
+/*------------------------------------------------------------/
+/ IMPORTER OCH TYPSNITT /
+/------------------------------------------------------------*/
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap');
 
-/* ==========================================================================
-   1. VARIABLER & GRUNDINSTÄLLNINGAR
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ GLOBALA VARIABLER OCH FÄRGSCHEMA /
+/------------------------------------------------------------*/
+
+/* Här definieras projektets huvudfärger */
 :root {
     --color-light: #CAD2C5;      
     --color-sage: #84A98C;       
@@ -11,23 +17,34 @@
     --color-charcoal: #2F3E46;   
 }
 
+/*------------------------------------------------------------/
+/ GRUNDLÄGGANDE ÅTERSTÄLLNING OCH STRUKTUR /
+/------------------------------------------------------------*/
+
+/* Nollställer marginaler och vaddering för alla element */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Hindrar innehåll från att sticka ut utanför skärmens bredd */
 html, body {
     max-width: 100%; 
     overflow-x: hidden;
 }
 
+/* Grundläggande inställningar för hela dokumentet */
 html {
     overflow-y: scroll;
     overflow-x: hidden; 
     width: 100%; 
     background-color: var(--color-light);
 }
+
+/*------------------------------------------------------------/
+/ BODY INSTÄLLNINGAR OCH INTONINGSLOGIK /
+/------------------------------------------------------------*/
 
 body {
     font-family: 'Montserrat', sans-serif;
@@ -40,20 +57,21 @@ body {
     background-color: var(--color-light);
     color: var(--color-charcoal);
     
-    /* Fade-in logik */
+    /* Startläge för sidans genomskinlighet */
     opacity: 0; 
     transition: opacity 0.5s ease-in-out;
 }
 
+/* Gör sidan synlig när laddningen är klar */
 body.page-loaded {
     opacity: 1;
 }
 
-/* ==========================================================================
-   2. BRANDING, LADDNING & ANIMATION 
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ BRANDING OCH LOGOTYP /
+/------------------------------------------------------------*/
 
-/* Grundstil för Loggan - Gäller ALLA sidor (så att typsnitt och animationer funkar) */
+/* Grundläggande stil för namnet uppe till vänster */
 .top-left-name {
     display: flex; 
     flex-direction: column;
@@ -67,17 +85,22 @@ body.page-loaded {
     z-index: 101;
 }
 
-/* NY BEHÅLLARE: Staplar loggan och menyn över varandra, i linje med innehållet */
+/* Behållare för logotyp och meny på undersidor */
 body:not(.portfolio-page) .header-wrapper {
     display: flex;
-    flex-direction: column; /* Staplar allt uppifrån och ner */
-    align-items: flex-start; /* Vänsterjusterar allt */
-    max-width: 1000px; /* Samma bredd som din brödtext */
+    flex-direction: column; 
+    align-items: flex-start; 
+    max-width: 1000px; 
     margin: 0 auto;
-    padding: 60px 5vw 0 5vw; /* Lite extra luft i toppen */
+    padding: 60px 5vw 0 5vw; 
     width: 100%;
 }
 
+/*------------------------------------------------------------/
+/ LADDNINGSSKÄRM OCH ANIMATIONSLOGIK /
+/------------------------------------------------------------*/
+
+/* Bakgrund för laddningsskärmen som täcker hela ytan */
 #loader-bg {
     position: fixed;
     inset: 0;
@@ -86,12 +109,13 @@ body:not(.portfolio-page) .header-wrapper {
     transition: opacity 0.8s ease, visibility 0.8s;
 }
 
+/* Döljer laddaren när webbplatsen är redo */
 #loader-bg.loader-finished {
     opacity: 0;
     visibility: hidden;
 }
 
-/* Loggan - på undersidor */
+/* Placering av namnet på alla sidor förutom portfolion */
 body:not(.portfolio-page) .top-left-name {
     position: static;
     display: flex; 
@@ -101,10 +125,10 @@ body:not(.portfolio-page) .top-left-name {
     color: var(--color-charcoal);
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 40px; /* Avstånd ner till menyn */
+    margin-bottom: 40px; 
 }
 
-/* På startsidan (portfolio) ska loggan fortfarande sitta fast i kanten */
+/* Fast placering av namnet på själva portfolion */
 .portfolio-page .top-left-name {
     position: fixed;
     top: 30px;
@@ -114,6 +138,10 @@ body:not(.portfolio-page) .top-left-name {
     pointer-events: none;
     z-index: 101;
 }
+
+/*------------------------------------------------------------/
+/ ANIMATIONER FÖR NAMNET /
+/------------------------------------------------------------*/
 
 .name-line {
     display: inline-flex;
@@ -137,7 +165,7 @@ body:not(.portfolio-page) .top-left-name {
     display: inline-block;
 }
 
-/* Animations-klasser */
+/* Klasser som aktiverar animationerna via javascript */
 .run-anim .initial { animation: slideInInitial 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 .run-anim .expand { animation: expandName 1s 1s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 .no-anim .initial { transform: translateX(0); }
@@ -149,24 +177,24 @@ body:not(.portfolio-page) .top-left-name {
     to { max-width: 200px; opacity: 1; }
 }
 
-/* ==========================================================================
-   3. NAVIGATION
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ NAVIGATION OCH LÄNKSTILAR /
+/------------------------------------------------------------*/
 
-/* Menyn på undersidor */
+/* Meny för undersidor som cv och kontakt */
 body:not(.portfolio-page) nav {
-    width: 100%; /* Låter länkarna breda ut sig */
+    width: 100%; 
     padding: 0;
 }
 
 body:not(.portfolio-page) nav ul {
     display: flex;
-    justify-content: space-between; /* Sprider länkarna från kant till kant (under loggan) */
+    justify-content: space-between; 
     list-style: none;
     margin: 0;
 }
 
-/* Menyn på startsidan (Portfolio) */
+/* Meny för huvudportfolion som ligger centrerat på skärmen */
 .portfolio-page nav {
     position: fixed;
     top: 50%;
@@ -185,6 +213,7 @@ body:not(.portfolio-page) nav ul {
     pointer-events: auto;
 }
 
+/* Stil för navigeringslänkarna */
 nav a {
     color: var(--color-charcoal);
     text-decoration: none;
@@ -195,14 +224,16 @@ nav a {
     transition: all 0.3s ease;
 }
 
+/* Utseende för länken när muspekaren hålls över eller när den är aktiv */
 nav a:hover, nav a.active {
     color: var(--color-dark-sage);
     border-bottom: 2px solid var(--color-dark-sage);
 }
 
-/* ==========================================================================
-   4. PORTFOLIO LAYOUT (HORISONTELL SCROLL)
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ PORTFOLIO LAYOUT OCH HORISONTELL SCROLL /
+/------------------------------------------------------------*/
+
 .full-screen-portfolio {
     height: 100vh;
     width: 100vw;
@@ -211,6 +242,7 @@ nav a:hover, nav a.active {
     overflow: hidden;
 }
 
+/* Behållare som tillåter sidledes scrollning genom projekten */
 .portfolio-scroll {
     display: flex;
     align-items: center;
@@ -219,13 +251,15 @@ nav a:hover, nav a.active {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0 15vw;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none; 
 }
 
+/* Döljer den inbyggda scrollisten i webbläsaren */
 .portfolio-scroll::-webkit-scrollbar {
-    display: none; /* Chrome/Safari */
+    display: none; 
 }
 
+/* Stil för varje enskilt projektkort */
 .project {
     background: #fff;
     padding: 5px;
@@ -239,6 +273,7 @@ nav a:hover, nav a.active {
     transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
+/* Lyfter kortet när användaren håller muspekaren över det */
 .project:hover {
     transform: scale(1.05) translateY(-10px);
     box-shadow: 15px 15px 40px rgba(47, 62, 70, 0.2);
@@ -249,13 +284,14 @@ nav a:hover, nav a.active {
     border-radius: 10px;
 }
 
-/* Sick-sack layout */
+/* Skapar ett mönster där varannat kort flyttas uppåt eller nedåt */
 .project:nth-child(odd) { translate: 0 -20vh; }
 .project:nth-child(even) { translate: 0 20vh; }
 
-/* ==========================================================================
-   5. SCROLL INDIKATOR
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ SCROLL INDIKATOR OCH MÄTARE /
+/------------------------------------------------------------*/
+
 .scroll-indicator-wrap {
     position: fixed;
     bottom: 40px;
@@ -278,6 +314,7 @@ nav a:hover, nav a.active {
     transition: opacity 0.5s ease;
 }
 
+/* Den vertikala mätaren som visar hur långt användaren scrollat */
 .progress-bar-container {
     width: 2px;
     height: 100px;
@@ -303,14 +340,16 @@ nav a:hover, nav a.active {
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
+/* Används för att dölja mätaren när man börjar scrolla iväg från starten */
 .scroll-hint.hidden, .scroll-text.hidden {
     opacity: 0;
     pointer-events: none;
 }
 
-/* ==========================================================================
-   6. CV OCH KONTAKT (Gemensam layout)
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ CV OCH KONTAKT SIDOR GEMENSAM LAYOUT /
+/------------------------------------------------------------*/
+
 .cv-page, .contact-page {
     width: 100%;
     max-width: 1000px;
@@ -328,6 +367,7 @@ nav a:hover, nav a.active {
     color: var(--color-slate);
 }
 
+/* Skapar ett rutnät för innehållet i cv och kontakt */
 .cv-grid, .contact-wrapper {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -348,6 +388,7 @@ nav a:hover, nav a.active {
 
 .cv-main-col p { margin-bottom: 25px; }
 
+/* Stil för listan med kompetenser */
 .skills-list li {
     background: var(--color-dark-sage);
     color: white;
@@ -358,7 +399,10 @@ nav a:hover, nav a.active {
     list-style: none; 
 }
 
-/* Kontakt-specifikt */
+/*------------------------------------------------------------/
+/ KONTAKTFORMULÄR OCH INMATNING /
+/------------------------------------------------------------*/
+
 .contact-text-section {
     padding-top: 20px;
     margin-top: 15px;
@@ -373,10 +417,11 @@ nav a:hover, nav a.active {
 .form-group { margin-bottom: 25px; }
 .form-group label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--color-slate); }
 
+/* Stil för fält i formuläret */
 .form-group input, .form-group textarea {
     width: 100%;
     padding: 15px;
-    border: 1px solid var(--color-sage);
+    border: 1px solid var(--sage);
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 4px;
     font-family: inherit;
@@ -384,12 +429,14 @@ nav a:hover, nav a.active {
     transition: border-color 0.3s;
 }
 
+/* Ändrar utseende när användaren klickar i ett fält */
 .form-group input:focus, .form-group textarea:focus {
     outline: none;
     border-color: var(--color-dark-sage);
     background-color: #fff;
 }
 
+/* Knapp för att skicka iväg formuläret */
 .submit-btn {
     background-color: var(--color-slate);
     color: white;
@@ -405,9 +452,10 @@ nav a:hover, nav a.active {
 
 .submit-btn:hover { background-color: var(--color-dark-sage); }
 
-/* ==========================================================================
-   7. MODAL (Projekt-popups)
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ MODAL FÖR PROJEKT POPUPS /
+/------------------------------------------------------------*/
+
 .modal {
     display: none;
     position: fixed;
@@ -419,6 +467,7 @@ nav a:hover, nav a.active {
     z-index: 1000;
 }
 
+/* Innehållsrutan för popupen */
 .modal-content {
     background-color: #fff;
     border-top: 6px solid var(--color-dark-sage);
@@ -442,6 +491,7 @@ nav a:hover, nav a.active {
     display: block;
 }
 
+/* Stängningsknappen i popup rutan */
 .close {
     position: absolute;
     top: 20px;
@@ -463,7 +513,6 @@ nav a:hover, nav a.active {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* --- STYLING FÖR TEXTEN I POPUPEN --- */
 #modal-title {
     font-size: 2rem;
     color: var(--color-slate);
@@ -479,6 +528,7 @@ nav a:hover, nav a.active {
     margin-bottom: 30px;
 }
 
+/* Behållare för länkar och knappar inuti popupen */
 .modal-links {
     display: flex;
     justify-content: center; 
@@ -505,28 +555,24 @@ nav a:hover, nav a.active {
 }
 
 .modal-btn.secondary { background-color: var(--color-charcoal); }
-.modal-btn:hover {
-    transform: translateY(-4px); 
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
-    opacity: 0.9;
-}
 
-/* ==========================================================================
-   8. RESPONSIVITET OCH PRINT (Mobil & Surfplatta)
-   ========================================================================== */
+/*------------------------------------------------------------/
+/ RESPONSIV DESIGN FÖR MOBIL OCH SURFPLATTA /
+/------------------------------------------------------------*/
+
 @media (max-width: 1024px) {
     
-    /* --- MENY OCH WAPPER PÅ MOBIL --- */
+    /* Ändrar sidhuvudet till att staplas vertikalt på mobila enheter */
     body:not(.portfolio-page) .header-wrapper {
         display: flex;
-        flex-direction: column; /* Staplar logga och meny på varandra */
-        align-items: center;    /* Centrerar allt */
+        flex-direction: column; 
+        align-items: center;    
         padding: 30px 5vw 0 5vw;
         gap: 20px;
     }
 
     body:not(.portfolio-page) .top-left-name {
-        align-items: center;    /* Centrerar "WENELL" under "JONATHAN" */
+        align-items: center;    
     }
 
     body:not(.portfolio-page) nav {
@@ -539,14 +585,13 @@ nav a:hover, nav a.active {
         flex-wrap: wrap; 
     }
 
-    /* --- ALLMÄN NAVIGATION PÅ SMÅ SKÄRMAR (Startsidan) --- */
     .portfolio-page nav ul {
         justify-content: space-between;
         gap: 20px; 
         flex-wrap: wrap; 
     }
 
-    /* --- CV & KONTAKT --- */
+    /* Gör att innehållsrutor för cv och kontakt fyller hela bredden */
     .cv-grid, .contact-wrapper { 
         grid-template-columns: 1fr; 
         gap: 40px; 
@@ -556,13 +601,7 @@ nav a:hover, nav a.active {
         font-size: 2.5rem; 
     }
 
-    .contact-text-section { 
-        border-top: none; 
-        padding-top: 0; 
-        margin-top: 0; 
-    }
-    
-    /* --- PORTFOLIO --- */
+    /* Ändrar portfolion från sidledes scroll till vanlig vertikal vy för mobiler */
     .full-screen-portfolio {
         display: block !important; 
         height: auto !important; 
@@ -598,11 +637,6 @@ nav a:hover, nav a.active {
         pointer-events: auto;
     }
 
-    .cv-page, .contact-page {
-        padding-top: 40px; 
-    }
-
-    /* --- SCROLL-BAR MOBIL --- */
     .progress-bar-container {
         width: 3px;
         height: 100px;
@@ -612,11 +646,16 @@ nav a:hover, nav a.active {
         bottom: 20px; 
     }
 
+    /* Gömmer de visuella scroll texterna på mobil */
     .scroll-hint, 
     .scroll-text {
         display: none !important;
     }
 }
+
+/*------------------------------------------------------------/
+/ UTSKRIFTSFORMAT /
+/------------------------------------------------------------*/
 
 @media print {
     nav, .portfolio-scroll, .submit-btn, .scroll-indicator-wrap { display: none !important; }

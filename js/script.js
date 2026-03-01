@@ -1,34 +1,36 @@
-// ------ GLOBAL LADDNING OCH FADE LOGIK ------
+//------------------------------------------------------------//
+// GLOBAL LADDNING OCH LOGIK FÖR ATT TONA IN SIDAN
+//------------------------------------------------------------//
 
 window.addEventListener('load', () => {
     const logo = document.getElementById('site-logo');
     const loaderBg = document.getElementById('loader-bg');
     
-    // 1. Rensa minnet så att animationen alltid tillåts köras
+    // Rensa minnet så att animationen alltid tillåts köras vid ny laddning
     sessionStorage.clear();
 
-    // 2. Förbered loggan (nollställ allt)
+    // Förbered logotypen genom att nollställa alla tidigare klasser
     if (logo) {
         logo.classList.remove('run-anim', 'no-anim');
-        void logo.offsetWidth; // Tvinga webbläsaren att rita om loggan (Reflow)
+        // Tvinga webbläsaren att rita om elementet för att nollställa animationen
+        void logo.offsetWidth; 
     }
 
-    // 3. STEG 1: Börja fada in själva sidan direkt
+    // Steg ett börja tona in själva webbplatsen direkt
     setTimeout(() => {
         document.body.style.transition = "opacity 0.6s ease-in-out";
         document.body.style.opacity = "1";
         document.body.classList.add("page-loaded");
     }, 100);
 
-    // 4. STEG 2: Ta bort den gråa laddningsskärmen (efter 0.5 sekunder)
+    // Steg ett börja tona in själva webbplatsen direkt
     if (loaderBg) {
         setTimeout(() => {
             loaderBg.classList.add('loader-finished');
         }, 500);
     }
 
-    // 5. STEG 3: Starta loggans animation (efter 1.2 sekunder)
-    // Nu är sidan helt synlig och användaren hinner fokusera på loggan
+    // Steg tre starta animationen för namnet när sidan är helt synlig
     if (logo) {
         setTimeout(() => {
             logo.classList.add('run-anim');
@@ -36,7 +38,9 @@ window.addEventListener('load', () => {
     }
 });
 
-// ------ FADE OUT VID KLICK PÅ LÄNKAR ------
+//------------------------------------------------------------//
+// HANTERING AV UTTONING NÄR ANVÄNDAREN KLICKAR PÅ LÄNKAR
+//------------------------------------------------------------//
 
 document.addEventListener("DOMContentLoaded", () => {
     const navLinks = document.querySelectorAll("nav a");
@@ -44,11 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", (e) => {
             const targetUrl = link.href;
             
+            // Kontrollera att länken går till en intern sida i samma domän
             if (link.hostname === window.location.hostname && targetUrl.includes(".html")) {
                 e.preventDefault();
                 document.body.style.transition = "opacity 0.5s ease-in-out";
                 document.body.style.opacity = "0";
 
+                // Vänta tills uttoningen är klar innan den nya sidan laddas
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 500);
@@ -57,8 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-
-// ------ MODAL ------
+//------------------------------------------------------------//
+// HANTERING AV POPUP RUTAN FÖR PROJEKTVISNING
+//------------------------------------------------------------//
 
 const modal = document.getElementById("projectModal");
 if (modal) {
@@ -69,6 +76,7 @@ if (modal) {
     const modalLinkProject = document.getElementById("modal-github"); 
     const closeBtn = document.querySelector(".modal .close");
 
+    // Gå igenom alla projekt och lägg till klickfunktion
     document.querySelectorAll(".portfolio-scroll .project").forEach(project => {
         project.addEventListener("click", () => {
             
@@ -82,11 +90,11 @@ if (modal) {
                 modalContentBox.style.textAlign = "left";
             }
 
-            // Tvinga texten att vara mörk (ifall påskägget gjort den vit)
+            // Återställ textfärgen till mörk ifall nattläget är aktivt
             modalTitle.style.color = "var(--color-slate)";
             modalDesc.style.color = "var(--color-charcoal)";
 
-            // 1. Hämta bild
+            // Hämta projektets bild från data attributet eller bildtaggen
             if (project.dataset.img) {
                 modalImg.src = project.dataset.img;
             } else {
@@ -94,11 +102,11 @@ if (modal) {
                 modalImg.src = innerImg ? innerImg.src : "";
             }
 
-            // 2. Hämta texter
+            // Uppdatera texterna i popup rutan med information från projektet
             modalTitle.textContent = project.dataset.title || "Projekttitel saknas";
             modalDesc.textContent = project.dataset.desc || "Ingen beskrivning tillgänglig.";
             
-            // 3. Uppdatera "Läs mer" länken
+            // Uppdatera länken för att läsa mer om projektet
             if (project.dataset.page) {
                 modalLinkDetails.href = project.dataset.page;
                 modalLinkDetails.style.display = "inline-block";
@@ -106,7 +114,7 @@ if (modal) {
                 modalLinkDetails.style.display = "none";
             }
 
-            // 4. Uppdatera Projekt/GitHub länken
+            // Uppdatera länken till projektets kod på github
             if (project.dataset.github) {
                 modalLinkProject.href = project.dataset.github;
                 modalLinkProject.style.display = "inline-block";
@@ -118,19 +126,22 @@ if (modal) {
         });
     });
 
+    // Stäng rutan när man klickar på krysset
     if (closeBtn) {
         closeBtn.addEventListener("click", () => {
             modal.style.display = "none";
         });
     }
 
+    // Stäng rutan om användaren klickar utanför innehållet
     window.addEventListener("click", (e) => {
         if (e.target === modal) modal.style.display = "none";
     });
 }
 
-
-// ------ SCROLL HORISONTALT OCH SCROLL BAR ------
+//------------------------------------------------------------//
+// LOGIK FÖR HORISONTELL SCROLLNING OCH FRAMSTEGSMÄTARE
+//------------------------------------------------------------//
 
 const scrollContainer = document.querySelector(".portfolio-scroll");
 const scrollBar = document.getElementById('scrollBar');
@@ -141,11 +152,11 @@ const siteLogo = document.getElementById('site-logo');
 if (scrollContainer) {
     let targetScrollLeft = 0;
     let currentScrollLeft = 0;
-    const speed = 0.02; // Hastigheten på inbromsningen
+    const speed = 0.02; // Hastigheten för den mjuka inbromsningen
     
-    // 1. DESKTOP: EVENT LISTENER FÖR SCROLL-HJULET
+    // Hantera scrollhjulet för stationära datorer
     scrollContainer.addEventListener("wheel", (e) => {
-        // Avbryt direkt om vi är på mobil/iPad så att fingrar inte blockeras
+        // Avbryt funktionen om skärmen är liten som en mobil eller surfplatta
         if (window.innerWidth <= 1024) return;
         
         if (e.deltaX !== 0) return;
@@ -158,7 +169,7 @@ if (scrollContainer) {
     }, { passive: false });
 
 
-    // 2. DESKTOP: ANIMATIONSLOOP (Exakt din gamla kod)
+    // Loop för att skapa mjuk rörelse och visuella effekter vid scroll
     function update() {
         if (window.innerWidth > 1024) {
             const velocity = targetScrollLeft - currentScrollLeft;
@@ -168,7 +179,7 @@ if (scrollContainer) {
             currentScrollLeft += (targetScrollLeft - currentScrollLeft) * speed;
             scrollContainer.scrollLeft = currentScrollLeft;
 
-            // Göm text och logga på desktop
+            // Dölj instruktionstext och logotyp när användaren börjar scrolla
             if (currentScrollLeft > 10) {
                 if (scrollHint) scrollHint.classList.add('hidden');
                 if (scrollText) scrollText.classList.add('hidden');
@@ -185,7 +196,7 @@ if (scrollContainer) {
                 }
             }
 
-            // Progress bar för desktop (horisontell)
+            // Uppdatera den vertikala mätaren för framsteg på datorer
             if (scrollBar) {
                 const maxScrollDesktop = scrollContainer.scrollWidth - scrollContainer.clientWidth;
                 if (maxScrollDesktop > 0) {
@@ -194,7 +205,7 @@ if (scrollContainer) {
                 }
             }
         } else {
-            // Nollställ eventuell skevning om fönstret krymps till mobil
+            // Återställ eventuell lutning om fönstret ändrar storlek till mobil
             scrollContainer.style.transform = 'none';
         }
         
@@ -202,13 +213,13 @@ if (scrollContainer) {
     }
     update();
 
-    // 3. MOBIL & IPAD: VANLIG SCROLL-LYSSNARE (Helt oberoende)
+    // Hantering av vanlig vertikal scroll för mobila enheter
     window.addEventListener('scroll', () => {
         if (window.innerWidth <= 1024) {
-            // Läs av hur långt ner vi har scrollat
+            // Läs av hur långt ner användaren har scrollat på sidan
             const currentScrollY = window.scrollY || document.documentElement.scrollTop;
 
-            // Göm text och logga
+            // Dölj texter och logotyp vid scrollning nedåt
             if (currentScrollY > 10) {
                 if (scrollHint) scrollHint.classList.add('hidden');
                 if (scrollText) scrollText.classList.add('hidden');
@@ -225,7 +236,7 @@ if (scrollContainer) {
                 }
             }
 
-            // Progress bar för mobil (vertikal neråt)
+            // Uppdatera mätaren baserat på den totala höjden av dokumentet
             if (scrollBar) {
                 const docHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
                 const maxScrollHeight = docHeight - window.innerHeight;
@@ -239,16 +250,18 @@ if (scrollContainer) {
     });
 }
 
-// ------ KONTAKT FORMULÄR ------
+//------------------------------------------------------------//
+// HANTERING AV KONTAKTFORMULÄRET OCH LOGOTYP VID SCROLL
+//------------------------------------------------------------//
 
 const contactForm = document.getElementById('contact-form');
 
 if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
 
-        // Stoppar så att det endast skickar en gång
-        e.preventDefault(); // Stoppar HTML inskick 
-        e.stopImmediatePropagation(); // Hindrar andra event lyssnare från att köra
+        // Förhindra att sidan laddas om vid inskickning
+        e.preventDefault(); 
+        e.stopImmediatePropagation(); 
 
         const data = new FormData(contactForm);
         
@@ -262,7 +275,7 @@ if (contactForm) {
             });
 
             if (response.ok) {
-                // Visa tack meddelandet 
+                // Visa ett tackmeddelande om allt gick bra
                 contactForm.innerHTML = "<h3>Tack för ditt meddelande!</h3><p>Jag återkommer så snart jag kan.</p>";
             } else {
                 alert("Något gick fel. Försök igen!");
@@ -274,59 +287,58 @@ if (contactForm) {
 }
 
 
-// ------ WEBBLÄSARENS BAKÅT KNAPP ------
-
-// Tvinga sidan att bli synlig igen om användaren backar tillbaka till den via webbläsaren
+// Se till att sidan blir synlig om användaren backar i webbläsaren
 window.addEventListener("pageshow", (event) => {
     
-    // event.persisted betyder att sidan laddades från webbläsarens cache
+    // Kontrollera om sidan laddades från webbläsarens cache minne
     if (event.persisted) {
         document.body.style.opacity = "1";
         document.body.classList.add("page-loaded");
     }
 });
 
-// ------ GÖM LOGGA VID VERTIKAL SCROLL (För Jobbigt, CV, Kontakt) ------
-
+// Funktion för att dölja logotypen vid vanlig vertikal scrollning på undersidor
 window.addEventListener('scroll', () => {
     const siteLogo = document.getElementById('site-logo');
     
-    // Kolla om loggan finns på sidan
+    // Utför endast om logotypen finns på den aktuella sidan
     if (siteLogo) {
-        // Om vi har scrollat ner mer än 50 pixlar
+        // Kontrollera om användaren scrollat ner mer än femtio pixlar
         if (window.scrollY > 50) {
             siteLogo.style.opacity = '0';
-            siteLogo.style.pointerEvents = 'none'; // Gör att man inte kan klicka på den osynliga loggan
+            siteLogo.style.pointerEvents = 'none'; 
         } else {
-            // Om vi är högst upp igen, visa loggan
+            // Visa logotypen igen när man är högst upp på sidan
             siteLogo.style.opacity = '1';
             siteLogo.style.pointerEvents = 'auto';
         }
     }
 });
 
+//------------------------------------------------------------//
+// PÅSKÄGG NUMMER ETT KLICKA PÅ TEXTEN SCROLL
+//------------------------------------------------------------//
 
-// ==========================================================================
-// 🥚 EASTER EGGS (PÅSKÄGG)
-// ==========================================================================
-
-// --- Påskägg 1: Klicka på "Scroll"-texten ---
 const oddElement = document.querySelector('.scroll-text');
 if (oddElement) {
     oddElement.addEventListener('click', () => {
         document.documentElement.style.setProperty('--color-light', '#354F52'); 
         document.body.style.color = '#CAD2C5'; 
-        alert("Påskägg 1 hittat! 🌙 Dark Mode aktiverat!");
+        alert("Påskägg 1 hittat! Dark Mode aktiverat!");
     });
 }
 
-// --- Påskägg 2: Skriv "jonathan wenell" ---
+//------------------------------------------------------------//
+// PÅSKÄGG NUMMER TVÅ SKRIV NAMNET JONATHAN WENELL
+//------------------------------------------------------------//
+
 let typedCode = '';
 const secretName = 'jonathan wenell'; 
 
 window.addEventListener('keydown', (e) => {
     typedCode += e.key.toLowerCase();
     
+    // Håll endast koll på de senaste tecknen för att matcha det hemliga namnet
     if (typedCode.length > secretName.length) {
         typedCode = typedCode.slice(-secretName.length);
     }
@@ -403,7 +415,7 @@ function triggerJonathanBackground() {
     const textSelectors = 'h1, h2, h3, p, li, nav a, .scroll-text, .scroll-hint, .top-left-name span';
     
     document.querySelectorAll(textSelectors).forEach(el => {
-        // 🔥 NYTT: Undanta popup-rutan från att bli vit!
+        // Se till att popup rutan inte påverkas av de nya textfärgerna
         if (!el.closest('.modal')) {
             el.style.setProperty('color', '#ffffff', 'important');
         }
@@ -415,11 +427,11 @@ function triggerJonathanBackground() {
     });
 }
 
-// ==========================================================================
-// 🥚 EASTER EGG 1: Klicka på Scroll för att byta bakgrund (Med återställ-knapp)
-// ==========================================================================
+//------------------------------------------------------------//
+// LOGIK FÖR NATTLÄGE OCH LJUST LÄGE SAMT TEMAKNAPP
+//------------------------------------------------------------//
 
-// 1. Skapa "Ljust läge"-knappen dynamiskt
+// Skapa knappen för att återställa temat dynamiskt via javascript
 const themeResetBtn = document.createElement('button');
 themeResetBtn.innerHTML = '☀️ Ljust läge';
 Object.assign(themeResetBtn.style, {
@@ -434,31 +446,31 @@ Object.assign(themeResetBtn.style, {
     fontWeight: 'bold',
     cursor: 'pointer',
     zIndex: '1001',
-    display: 'none', // Osynlig från start
+    display: 'none', 
     boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
     transition: 'transform 0.2s ease'
 });
 
-// Liten hover-effekt på knappen
+// Lägg till visuell effekt när man håller muspekaren över knappen
 themeResetBtn.addEventListener('mouseenter', () => themeResetBtn.style.transform = 'scale(1.05)');
 themeResetBtn.addEventListener('mouseleave', () => themeResetBtn.style.transform = 'scale(1)');
 document.body.appendChild(themeResetBtn);
 
-// Klicklyssnare för knappen (stänger av nattläge)
+// Funktion för att stänga av nattläget när man klickar på knappen
 themeResetBtn.addEventListener('click', () => {
     toggleEasterEggTheme(false); 
 });
 
-// 2. Funktion som slår på/av nattläget
+// Funktion som hanterar växlingen av färger för nattläge
 function toggleEasterEggTheme(showPopup = false) {
     const isDark = localStorage.getItem('easterEggDarkMode') === 'true';
 
     if (isDark) {
-        // --- STÄNG AV NATTLÄGE ---
+        // Återställ till ljust läge och spara valet lokalt
         localStorage.setItem('easterEggDarkMode', 'false');
         document.documentElement.style.setProperty('--color-light', '#CAD2C5'); 
         
-        // Återställ textfärgen
+        // Återställ alla textfärger till sitt ursprungliga tillstånd
         document.querySelectorAll('h1, h2, h3, p, span, a, li').forEach(el => {
             if (!el.closest('.modal')) { 
                 el.style.color = ''; 
@@ -468,11 +480,11 @@ function toggleEasterEggTheme(showPopup = false) {
         themeResetBtn.style.display = 'none'; 
         
     } else {
-        // --- SLÅ PÅ NATTLÄGE ---
+        // Aktivera nattläge och ändra bakgrundsfärgen
         localStorage.setItem('easterEggDarkMode', 'true');
         document.documentElement.style.setProperty('--color-light', '#1A202C'); 
         
-        // Gör all text ljus
+        // Uppdatera alla texter till en ljusare nyans för bättre kontrast
         document.querySelectorAll('h1, h2, h3, p, span, a, li').forEach(el => {
             if (!el.closest('.modal')) {
                 el.style.setProperty('color', '#CAD2C5', 'important');
@@ -483,13 +495,13 @@ function toggleEasterEggTheme(showPopup = false) {
     }
 }
 
-// 3. KOLLA MINNET VID SIDLADDNING
+// Kontrollera om användaren har sparat nattläge sedan tidigare besök
 if (localStorage.getItem('easterEggDarkMode') === 'true') {
     localStorage.setItem('easterEggDarkMode', 'false'); 
     toggleEasterEggTheme(false); 
 }
 
-// 4. KLICK-LYSSNAREN FÖR SCROLL-TEXTEN
+// Lägg till klicklyssnare på scroll mätaren för att byta tema
 const scrollArea = document.querySelector('.scroll-indicator-wrap');
 if (scrollArea) {
     scrollArea.style.cursor = 'pointer';
@@ -499,14 +511,16 @@ if (scrollArea) {
     scrollArea.addEventListener('click', (e) => {
         e.stopPropagation(); 
         
+        // Förhindra flera klick i snabb följd
         if (isClicking) return; 
         isClicking = true;
 
         const isCurrentlyDark = localStorage.getItem('easterEggDarkMode') === 'true';
         
-        // Om det redan är mörkt, stäng av (utan popup). Är det ljust, slå på (med popup).
+        // Växla tema baserat på nuvarande tillstånd
         toggleEasterEggTheme(!isCurrentlyDark); 
 
+        // Tillåt klick igen efter en sekund
         setTimeout(() => {
             isClicking = false;
         }, 1000);
