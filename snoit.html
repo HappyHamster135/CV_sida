@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Snöit Projekt | Jonathan Wenell</title>
+
+        <link rel="stylesheet" href="css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <header class="header-wrapper">
+            <div class="top-left-name" id="site-logo">
+                <div class="name-line">
+                    <span class="initial">J</span><span class="expand">ONATHAN</span>
+                </div>
+                <div class="name-line">
+                    <span class="initial">W</span><span class="expand">ENELL</span>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="index.html">Hem</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="about.html">Om Mig</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="loader-bg"></div>
+
+        <main class="cv-page">
+            <div class="cv-header">
+                <h1>Snöit</h1>
+                <p style="font-size: 1.2rem; color: var(--color-charcoal); font-weight: 600;">Realtidsdata för skandinaviska skidorter</p>
+            </div>
+
+            <div class="cv-grid">
+                
+                <div class="cv-main-col">
+                    <img src="images/snoit.png" alt="Snöit Interface" style="width: 100%; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(47, 62, 70, 0.1);">
+
+                    <p>Att planera en skidresa kräver ofta att man hoppar mellan flera olika tunga hemsidor för att kolla väder, liftar och snödjup. Jag byggde <strong>Snöit</strong> för att lösa detta genom att samla all kritisk information i ett blixtsnabbt och mobiloptimerat gränssnitt.</p>
+
+                    <h2>Idén</h2>
+                    <p>Målet var att skapa en central knutpunkt för skidåkare. Istället för att navigera komplexa menyer på stora webbplatser får användaren allt på ett ställe genom ett enda klick, från aktuellt snödjup till exakta öppettider.</p>
+
+                    <h2>Hur det fungerar</h2>
+                    <p>Applikationen är en fullstack-lösning som kombinerar rå dataextraktion med moderna API-integrationer:</p>
+                    <ul style="margin-bottom: 25px; padding-left: 20px; color: var(--color-charcoal);">
+                        <li style="margin-bottom: 10px;"><strong>Web Scraping (Node.js):</strong> Backend-servern skrapar Skistars officiella källor i realtid för att hämta aktuell liftstatus och pistat snödjup, information som ofta saknas i vanliga väder-API:er.</li>
+                        <li style="margin-bottom: 10px;"><strong>API-integration (Open-Meteo):</strong> För att ge en komplett bild hämtar appen exakta väderprognoser för både dal- och toppnivå baserat på ortens specifika koordinater.</li>
+                        <li style="margin-bottom: 10px;"><strong>Interaktiva Kartor:</strong> Genom ett anpassat koordinatsystem kan användaren klicka på en lift i listan och se dess exakta position direkt på pistkartan i fullskärmsläge.</li>
+                    </ul>
+
+                    <h2>Tekniska utmaningar jag löste</h2>
+                    <ul style="margin-bottom: 25px; padding-left: 20px; color: var(--color-charcoal);">
+                        <li style="margin-bottom: 10px;"><strong>Datastabilitet:</strong> Att förlita sig på scraping kräver robust felhantering. Jag implementerade ett caching-system som sparar säkerhetskopior av data för att garantera att appen fungerar även om källsidan tillfälligt ligger nere.</li>
+                        <li style="margin-bottom: 10px;"><strong>Mobiloptimering:</strong> Att presentera mycket data på små skärmar krävde en avancerad CSS Grid-layout där snödata och klockslag automatiskt staplas vertikalt för maximal läsbarhet.</li>
+                    </ul>
+
+                    <h2>Resultat</h2>
+                    <p>Resultatet är en högpresterande webbapplikation (snoit.eu) med ett gratis SSL-certifikat och automatiserad deployment via Vercel. Appen hanterar dynamiskt olika orter och underområden, och levererar data som är både visuellt tilltalande och tekniskt korrekt.</p>
+                </div>
+
+                <div class="cv-side-col">
+                    <h2>💻 Tech Stack</h2>
+                    <ul class="skills-list">
+                        <li>JavaScript (ES6+)</li>
+                        <li>Node.js & Express</li>
+                        <li>Web Scraping (Regex/Fetch)</li>
+                        <li>Open-Meteo API</li>
+                        <li>CSS Grid & Flexbox</li>
+                        <li>Vercel & Render (Deployment)</li>
+                    </ul>
+
+                    <h2 style="margin-top: 50px;">🔗 Länkar</h2>
+                    <a href="https://snoit.eu" target="_blank" class="submit-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 15px; background-color: #48A6A7;">
+                        Besök snoit.eu
+                    </a>
+                    
+                    <a href="https://github.com/HappyHamster135/Snoit-hemsida.git" target="_blank" class="submit-btn" style="display: block; text-align: center; text-decoration: none; margin-bottom: 15px; background-color: var(--color-slate);">
+                        Se kod på GitHub
+                    </a>
+                    
+                    <a href="index.html" style="display: block; text-align: center; color: var(--color-slate); font-weight: 700; text-decoration: none; margin-top: 25px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+                        ← Tillbaka till Portfolio
+                    </a>
+                </div>
+
+            </div>
+        </main>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>
