@@ -486,6 +486,19 @@ nav a:hover, nav a.active {
     text-align: left;
     position: relative;
     animation: slideIn 0.3s ease;
+
+    text-align: center; /* Centrerar text och knappar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal-title, #modal-desc {
+    /* NYTT: Säkerställer att texten tar full bredd för att centreras */
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #modal-img {
@@ -543,12 +556,10 @@ nav a:hover, nav a.active {
     margin-top: 20px; 
 }
 
+/* Grundläggande form för alla knappar */
 .modal-btn {
     display: inline-block;
     padding: 14px 28px;
-    background-color: var(--color-dark-sage); 
-    color: #ffffff !important; 
-    text-decoration: none !important; 
     border-radius: 8px; 
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
@@ -558,9 +569,40 @@ nav a:hover, nav a.active {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
     transition: all 0.3s ease;
     text-align: center;
+    color: #ffffff !important; 
+    text-decoration: none !important; 
+    border: none; /* Ser till att ingen grå standardram syns */
 }
 
-.modal-btn.secondary { background-color: var(--color-charcoal); }
+/* Färg för "Besök hemsidan" (den ljusare teal-färgen från bild 2) */
+.modal-btn.primary-btn {
+    background-color: #48A6A7; 
+}
+
+.modal-btn.primary-btn:hover {
+    background-color: #3d8f90;
+    transform: translateY(-2px);
+}
+
+/* Färg för "Läs mer här" (din mörkare sage-färg) */
+.modal-btn:not(.primary-btn):not(.secondary) {
+    background-color: var(--color-dark-sage); 
+}
+
+.modal-btn:not(.primary-btn):not(.secondary):hover {
+    background-color: #42635a;
+    transform: translateY(-2px);
+}
+
+/* Färg för "Se koden på GitHub" (mörkgrå) */
+.modal-btn.secondary { 
+    background-color: var(--color-charcoal); 
+}
+
+.modal-btn.secondary:hover {
+    background-color: #1a252b;
+    transform: translateY(-2px);
+}
 
 /*------------------------------------------------------------/
 / RESPONSIV DESIGN FÖR MOBIL OCH SURFPLATTA /

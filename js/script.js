@@ -74,6 +74,7 @@ if (modal) {
     const modalDesc = document.getElementById("modal-desc");
     const modalLinkDetails = document.getElementById("modal-readmore"); 
     const modalLinkProject = document.getElementById("modal-github"); 
+    const modalLinkLive = document.getElementById("modal-live");
     const closeBtn = document.querySelector(".modal .close");
 
     // Gå igenom alla projekt och lägg till klickfunktion
@@ -87,7 +88,7 @@ if (modal) {
             const modalContentBox = document.querySelector(".modal-content");
             if (modalContentBox) {
                 modalContentBox.style.maxWidth = "800px";
-                modalContentBox.style.textAlign = "left";
+                
             }
 
             // Återställ textfärgen till mörk ifall nattläget är aktivt
@@ -121,6 +122,16 @@ if (modal) {
             } else {
                 modalLinkProject.style.display = "none";
             }
+
+            // --- LÄGG TILL DETTA NYA BLOCK HÄR ---
+            // Uppdatera länken till live-hemsidan
+            if (project.dataset.live) {
+                modalLinkLive.href = project.dataset.live;
+                modalLinkLive.style.display = "inline-block";
+            } else {
+                modalLinkLive.style.display = "none";
+            }
+            // -------------------------------------
 
             modal.style.display = "flex";
         });
